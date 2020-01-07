@@ -19,3 +19,4 @@
 9. Make it Pure Java. We don't need Spring Framework in this Project 
 10. Move the Autoconfiguration in the highest Modul GS
 11. Change the Base Package Name in com.thinkenterprise.gtt 
+12. Maven Wrapper 
