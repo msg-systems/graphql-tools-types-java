@@ -19,6 +19,7 @@
 7. A Sample is missing 
 8. Make the Test Pure Java JUnit 5 
 9. Make it Pure Java. We don't need Spring Framework in this Project 
-10. Move the Autoconfiguration in the highest Modul GS
+10. Move the Autoconfiguration into the starter project
 11. Change the Base Package Name in com.thinkenterprise.gtt
-12. Delete Maven Warnings  
+12. Delete Maven Warnings 
+13. Maven Wrapper 
