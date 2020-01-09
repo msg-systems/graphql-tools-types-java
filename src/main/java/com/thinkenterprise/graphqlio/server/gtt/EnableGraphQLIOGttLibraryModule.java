@@ -38,4 +38,4 @@ import org.springframework.context.annotation.Import;
 @Import(GraphQLIOLibraryGttConfiguration.class)
 @Configuration
 public @interface EnableGraphQLIOGttLibraryModule {
-}
+} 
