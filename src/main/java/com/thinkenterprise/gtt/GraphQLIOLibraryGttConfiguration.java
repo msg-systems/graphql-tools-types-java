@@ -24,46 +24,27 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.graphqlio.server.gtt.autoconfiguration;
+package com.thinkenterprise.gtt;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+
+
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.thinkenterprise.graphqlio.server.gtt.types.GttDateType;
-import com.thinkenterprise.graphqlio.server.gtt.types.GttJsonType;
-import com.thinkenterprise.graphqlio.server.gtt.types.GttUuidType;
-import com.thinkenterprise.graphqlio.server.gtt.types.GttVoidType;
-
-/**
- * Class used to process any incoming message sent by clients via WebSocket
- * supports subprotocols (CBOR, MsgPack, Text)
- * triggers process to indicate outdating queries and notifies clients
- *
- * @author Michael Schäfer
- * @author Torsten Kühnert
- */
-
 @Configuration
-@EnableConfigurationProperties(GttAutoConfiguration.class)
-@ConfigurationProperties(prefix = "graphqlio.toolstypes")
-public class GttAutoConfiguration{
+@ComponentScan(basePackageClasses = GraphQLIOLibraryGttConfiguration.class)
+public class GraphQLIOLibraryGttConfiguration {
 
-	@Autowired
-	private GttProperties gttProperties;
-    	
-	@Bean 
-	public GttUuidType gttUuidType() { return new GttUuidType(); }
 	
-	@Bean 
-	public GttDateType gttDateType() { return new GttDateType(); }
+	  private static final Logger logger = LoggerFactory.getLogger(GraphQLIOLibraryGttConfiguration.class);
 
-	@Bean 
-	public GttJsonType gttJsonType() { return new GttJsonType(); }
-
-	@Bean 
-	public GttVoidType gttVoidType() { return new GttVoidType(); }
-	
+	  @PostConstruct
+	  public void postConstruct(){
+	    logger.info("GraphQLIOLIbrary GTT Module Loaded!");
+	  }
 }
+

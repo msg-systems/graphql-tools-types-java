@@ -1,4 +1,4 @@
-package com.thinkenterprise.graphqlio;
+package com.thinkenterprise.gtt;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;

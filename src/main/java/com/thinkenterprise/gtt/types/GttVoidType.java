@@ -24,12 +24,8 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.graphqlio.server.gtt.types;
+package com.thinkenterprise.gtt.types;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import graphql.language.StringValue;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -37,67 +33,36 @@ import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
 /**
- * Class used to implement Date for graphql scalar types
- * format yyyy-MM-dd HH:mm:ss is used here
+ * Class used to implement void (no value) for graphql scalar types
  *
  * @author Michael Schäfer
  * @author Torsten Kühnert
  */
 
-public class GttDateType extends GraphQLScalarType {
+public class GttVoidType extends GraphQLScalarType {
 
-	private static final String DEFAULT_NAME = "Date";
+	private static final String DEFAULT_NAME = "Void";
 
-	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-	public GttDateType() {
+	public GttVoidType() {
 		this(DEFAULT_NAME);
 	}
 
-	public GttDateType(final String name) {
-		super(name, DEFAULT_NAME + " type", new Coercing<Date, String>() {
+	public GttVoidType(final String name) {
+		super(name, DEFAULT_NAME + " type", new Coercing<Object, Object>() {
 
 			@Override
-			public Date parseLiteral(Object arg0) throws CoercingParseLiteralException {
-				if (arg0 instanceof StringValue) {
-					try {
-						StringValue inst = (StringValue) arg0;
-						return new SimpleDateFormat(DATE_FORMAT).parse(inst.getValue());
-					} catch (Exception e) {
-						throw new CoercingParseLiteralException(e);
-					}
-				} else {
-					throw new CoercingParseLiteralException(
-							"parseLiteral: Expected a 'StringValue' but was '" + (arg0.getClass()) + "'.");
-				}
+			public Object parseLiteral(Object arg0) throws CoercingParseLiteralException {
+				return null;
 			}
 
 			@Override
-			public Date parseValue(Object arg0) throws CoercingParseValueException {
-				if (arg0 instanceof String) {
-					try {
-						return new SimpleDateFormat(DATE_FORMAT).parse((String) arg0);
-					} catch (Exception e) {
-						throw new CoercingParseValueException(e);
-					}
-				} else {
-					throw new CoercingParseValueException(
-							"parseValue: Expected a 'String' but was '" + (arg0.getClass()) + "'.");
-				}
+			public Object parseValue(Object arg0) throws CoercingParseValueException {
+				return null;
 			}
 
 			@Override
-			public String serialize(Object arg0) throws CoercingSerializeException {
-				if (arg0 instanceof Date) {
-					try {
-						return new SimpleDateFormat(DATE_FORMAT).format((Date) arg0);
-					} catch (Exception e) {
-						throw new CoercingSerializeException(e);
-					}
-				} else {
-					throw new CoercingSerializeException(
-							"serialize: Expected a 'Date' but was '" + (arg0.getClass()) + "'.");
-				}
+			public Object serialize(Object arg0) throws CoercingSerializeException {
+				return null;
 			}
 
 		});

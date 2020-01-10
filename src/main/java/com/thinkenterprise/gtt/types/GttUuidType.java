@@ -24,8 +24,11 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.graphqlio.server.gtt.types;
+package com.thinkenterprise.gtt.types;
 
+import java.util.UUID;
+
+import graphql.language.StringValue;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
@@ -33,36 +36,60 @@ import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
 /**
- * Class used to implement void (no value) for graphql scalar types
+ * Class used to implement UUID for graphql scalar types
  *
  * @author Michael Schäfer
  * @author Torsten Kühnert
  */
 
-public class GttVoidType extends GraphQLScalarType {
+public class GttUuidType extends GraphQLScalarType {
 
-	private static final String DEFAULT_NAME = "Void";
+	private static final String DEFAULT_NAME = "UUID";
 
-	public GttVoidType() {
+	public GttUuidType() {
 		this(DEFAULT_NAME);
 	}
 
-	public GttVoidType(final String name) {
-		super(name, DEFAULT_NAME + " type", new Coercing<Object, Object>() {
+	public GttUuidType(final String name) {
+		super(name, DEFAULT_NAME + " type", new Coercing<UUID, String>() {
 
 			@Override
-			public Object parseLiteral(Object arg0) throws CoercingParseLiteralException {
-				return null;
+			public UUID parseLiteral(Object arg0) throws CoercingParseLiteralException {
+				if (arg0 instanceof StringValue) {
+					try {
+						StringValue inst = (StringValue) arg0;
+						return UUID.fromString(inst.getValue());
+					} catch (Exception e) {
+						throw new CoercingParseLiteralException(e);
+					}
+				} else {
+					throw new CoercingParseLiteralException(
+							"parseLiteral: Expected a 'StringValue' but was '" + (arg0.getClass()) + "'.");
+				}
 			}
 
 			@Override
-			public Object parseValue(Object arg0) throws CoercingParseValueException {
-				return null;
+			public UUID parseValue(Object arg0) throws CoercingParseValueException {
+				if (arg0 instanceof String) {
+					try {
+						return UUID.fromString((String) arg0);
+					} catch (Exception e) {
+						throw new CoercingParseValueException(e);
+					}
+				} else {
+					throw new CoercingParseValueException(
+							"parseValue: Expected a 'String' but was '" + (arg0.getClass()) + "'.");
+				}
 			}
 
 			@Override
-			public Object serialize(Object arg0) throws CoercingSerializeException {
-				return null;
+			public String serialize(Object arg0) throws CoercingSerializeException {
+				if (arg0 instanceof UUID) {
+					return arg0.toString();
+				} else {
+					throw new CoercingSerializeException(
+							"serialize: Expected a 'UUID' or 'String' but was '" + (arg0.getClass()) + "'.");
+				}
 			}
 
 		});

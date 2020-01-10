@@ -24,18 +24,20 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.graphqlio.server.gtt;
+package com.thinkenterprise.gtt.autoconfiguration;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-import java.lang.annotation.*;
+/**
+ * Class to provide graphqlio.server Configuration properties 
+ *
+ * @author Michael Schäfer
+ */
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+@Component
+@ConfigurationProperties(prefix = "graphqlio.toolstypes")
+public class GttProperties {
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
-@Documented
-@Import(GraphQLIOLibraryGttConfiguration.class)
-@Configuration
-public @interface EnableGraphQLIOGttLibraryModule {
-} 
+}

@@ -23,7 +23,7 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package com.thinkenterprise.graphqlio.server.gtt.types;
+package com.thinkenterprise.gtt.types;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,6 +35,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.thinkenterprise.gtt.types.GttVoidType;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;

@@ -24,9 +24,10 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.graphqlio.server.gtt.types;
+package com.thinkenterprise.gtt.types;
 
-import java.util.UUID;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
@@ -36,29 +37,32 @@ import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
 /**
- * Class used to implement UUID for graphql scalar types
+ * Class used to implement JSON for graphql scalar types
+ * represented by Strings
+ * correct JSON-format is checked
  *
  * @author Michael Schäfer
  * @author Torsten Kühnert
+ * @author Wei Scheng
  */
 
-public class GttUuidType extends GraphQLScalarType {
+public class GttJsonType extends GraphQLScalarType {
 
-	private static final String DEFAULT_NAME = "UUID";
+	private static final String DEFAULT_NAME = "JSON";
 
-	public GttUuidType() {
+	public GttJsonType() {
 		this(DEFAULT_NAME);
 	}
 
-	public GttUuidType(final String name) {
-		super(name, DEFAULT_NAME + " type", new Coercing<UUID, String>() {
+	public GttJsonType(final String name) {
+		super(name, DEFAULT_NAME + " type", new Coercing<String, String>() {
 
 			@Override
-			public UUID parseLiteral(Object arg0) throws CoercingParseLiteralException {
+			public String parseLiteral(Object arg0) throws CoercingParseLiteralException {
 				if (arg0 instanceof StringValue) {
 					try {
-						StringValue inst = (StringValue) arg0;
-						return UUID.fromString(inst.getValue());
+						String value = ((StringValue) arg0).getValue();
+						return testAndConvertJson2String(value);
 					} catch (Exception e) {
 						throw new CoercingParseLiteralException(e);
 					}
@@ -69,10 +73,11 @@ public class GttUuidType extends GraphQLScalarType {
 			}
 
 			@Override
-			public UUID parseValue(Object arg0) throws CoercingParseValueException {
+			public String parseValue(Object arg0) throws CoercingParseValueException {
 				if (arg0 instanceof String) {
 					try {
-						return UUID.fromString((String) arg0);
+						String value = (String) arg0;
+						return testAndConvertJson2String(value);
 					} catch (Exception e) {
 						throw new CoercingParseValueException(e);
 					}
@@ -84,11 +89,37 @@ public class GttUuidType extends GraphQLScalarType {
 
 			@Override
 			public String serialize(Object arg0) throws CoercingSerializeException {
-				if (arg0 instanceof UUID) {
-					return arg0.toString();
+				if (arg0 instanceof String) {
+					try {
+						String value = (String) arg0;
+						return testAndConvertJson2String(value);
+					} catch (Exception e) {
+						throw new CoercingSerializeException(e);
+					}
 				} else {
 					throw new CoercingSerializeException(
-							"serialize: Expected a 'UUID' or 'String' but was '" + (arg0.getClass()) + "'.");
+							"serialize: Expected a 'String' but was '" + (arg0.getClass()) + "'.");
+				}
+			}
+
+			private String testAndConvertJson2String(String value) throws Exception {
+				try {
+					// 1. try JSONObject
+					JSONObject obj = new JSONObject(value);
+					return obj.toString();
+
+				} catch (Exception e1) {
+					String eMsg = e1.getMessage();
+
+					try {
+						// 2. try JSONArray
+						JSONArray obj = new JSONArray(value);
+						return obj.toString();
+
+					} catch (Exception e2) {
+						eMsg += " and " + e2.getMessage();
+						throw new Exception(eMsg);
+					}
 				}
 			}
 
