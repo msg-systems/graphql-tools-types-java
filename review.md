@@ -21,5 +21,8 @@
 9. Make it Pure Java. We don't need Spring Framework in this Project 
 10. Move the Autoconfiguration into the starter project
 11. Change the Base Package Name in com.thinkenterprise.gtt
+```
+-> done! (tku)
+```
 12. Delete Maven Warnings 
 13. Maven Wrapper 
