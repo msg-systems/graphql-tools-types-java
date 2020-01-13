@@ -1,5 +1,5 @@
 # About
-websocket-framed-java is the **Java** implementation of the **JavaScript** websocket-framed-java reference implementation. 
+graphql-tools-types-java is the **Java** implementation of the **JavaScript** graphql-tools-types reference implementation. 
 The documentation of the reference implementation can be found at [Project Github] (https://github.com/rse/websocket-framed). 
 
 # Installation
@@ -19,7 +19,7 @@ FIXME
 ```
 <dependency>
 	<groupId>com.thinkenterprise</groupId>
-	<artifactId>websocket-framed-java</artifactId>
+	<artifactId>graphql-tools-types-java</artifactId>
 	<version>0.0.9</version>
 </dependency>
 
@@ -29,7 +29,7 @@ FIXME
 
 ```
 dependencies {
-  compile 'com.thinkenterprise:websocket-framed-java:0.0.9'
+  compile 'com.thinkenterprise:graphql-tools-types-java:0.0.9'
 }
 ```
 
