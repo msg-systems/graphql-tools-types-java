@@ -35,8 +35,28 @@ dependencies {
 
 
 # Sample 
-FIXME
 
+graphql schema sample:
+
+```
+type SampleType {
+	signature: UUID
+	expires: Date
+	null4ever: Void
+	data: JSON
+}
+```
+
+values samples:
+
+```
+{
+	signature: "3b241101-e2bb-4255-8caf-4136c566a964",
+	expires: "2020-02-02 20:00:02",
+	null4ever: null,
+	data: "{ a: \"123\", b: [ 1, 2, 3 ] }"
+}
+```
 
 
 # License 

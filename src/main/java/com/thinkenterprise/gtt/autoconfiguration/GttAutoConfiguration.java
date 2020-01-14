@@ -38,11 +38,10 @@ import com.thinkenterprise.gtt.types.GttUuidType;
 import com.thinkenterprise.gtt.types.GttVoidType;
 
 /**
- * Class used to process any incoming message sent by clients via WebSocket
- * supports subprotocols (CBOR, MsgPack, Text)
- * triggers process to indicate outdating queries and notifies clients
+ * Class used propagate types in a graphql io server environment
  *
  * @author Michael Schäfer
+ * @author Dr. Edgar Müller
  * @author Torsten Kühnert
  */
 
