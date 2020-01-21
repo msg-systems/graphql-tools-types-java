@@ -27,3 +27,16 @@
 ```
 4. Change Legacy Library 
 
+5. ??? (tku)
+Make Tests Pure Java - spring-boot-starter-json .. (I) 
+POM ->  JUNIT5 from JUNIT 5 Libs 
+
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+</dependency>
+
+@SpringBootTest 
+
+GraphQlIoApplicationTests.java	sollen raus
+TestApplication.java sollen raus 
