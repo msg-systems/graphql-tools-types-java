@@ -36,7 +36,7 @@ dependencies {
 
 # Sample 
 
-graphql schema sample:
+graphql schema example:
 
 ```
 type SampleType {
@@ -47,7 +47,7 @@ type SampleType {
 }
 ```
 
-values samples:
+values example:
 
 ```
 {
@@ -56,6 +56,15 @@ values samples:
 	null4ever: null,
 	data: "{ a: \"123\", b: [ 1, 2, 3 ] }"
 }
+```
+
+Working with GttDateType:
+
+```
+		GttDateType type = new GttDateType();
+		Object date_1_result = type.getCoercing().parseLiteral(new StringValue("2005-05-05 05:05:05"));
+		Object date_2_result = type.getCoercing().parseValue("2005-05-05 05:05:05");
+		Object string_result = type.getCoercing().serialize(date_2_result);
 ```
 
 
