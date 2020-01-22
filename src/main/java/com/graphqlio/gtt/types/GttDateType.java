@@ -24,9 +24,10 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.gtt.types;
+package com.graphqlio.gtt.types;
 
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
@@ -36,29 +37,32 @@ import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
 /**
- * Class used to implement UUID for graphql scalar types
+ * Class used to implement Date for graphql scalar types
+ * format yyyy-MM-dd HH:mm:ss is used here
  *
  * @author Michael Schäfer
  * @author Torsten Kühnert
  */
 
-public class GttUuidType extends GraphQLScalarType {
+public class GttDateType extends GraphQLScalarType {
 
-	private static final String DEFAULT_NAME = "UUID";
+	private static final String DEFAULT_NAME = "Date";
 
-	public GttUuidType() {
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+	public GttDateType() {
 		this(DEFAULT_NAME);
 	}
 
-	public GttUuidType(final String name) {
-		super(name, DEFAULT_NAME + " type", new Coercing<UUID, String>() {
+	public GttDateType(final String name) {
+		super(name, DEFAULT_NAME + " type", new Coercing<Date, String>() {
 
 			@Override
-			public UUID parseLiteral(Object arg0) throws CoercingParseLiteralException {
+			public Date parseLiteral(Object arg0) throws CoercingParseLiteralException {
 				if (arg0 instanceof StringValue) {
 					try {
 						StringValue inst = (StringValue) arg0;
-						return UUID.fromString(inst.getValue());
+						return new SimpleDateFormat(DATE_FORMAT).parse(inst.getValue());
 					} catch (Exception e) {
 						throw new CoercingParseLiteralException(e);
 					}
@@ -69,10 +73,10 @@ public class GttUuidType extends GraphQLScalarType {
 			}
 
 			@Override
-			public UUID parseValue(Object arg0) throws CoercingParseValueException {
+			public Date parseValue(Object arg0) throws CoercingParseValueException {
 				if (arg0 instanceof String) {
 					try {
-						return UUID.fromString((String) arg0);
+						return new SimpleDateFormat(DATE_FORMAT).parse((String) arg0);
 					} catch (Exception e) {
 						throw new CoercingParseValueException(e);
 					}
@@ -84,11 +88,15 @@ public class GttUuidType extends GraphQLScalarType {
 
 			@Override
 			public String serialize(Object arg0) throws CoercingSerializeException {
-				if (arg0 instanceof UUID) {
-					return arg0.toString();
+				if (arg0 instanceof Date) {
+					try {
+						return new SimpleDateFormat(DATE_FORMAT).format((Date) arg0);
+					} catch (Exception e) {
+						throw new CoercingSerializeException(e);
+					}
 				} else {
 					throw new CoercingSerializeException(
-							"serialize: Expected a 'UUID' or 'String' but was '" + (arg0.getClass()) + "'.");
+							"serialize: Expected a 'Date' but was '" + (arg0.getClass()) + "'.");
 				}
 			}
 

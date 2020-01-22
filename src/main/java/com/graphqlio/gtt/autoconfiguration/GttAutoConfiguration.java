@@ -24,48 +24,45 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.gtt.types;
+package com.graphqlio.gtt.autoconfiguration;
 
-import graphql.schema.Coercing;
-import graphql.schema.CoercingParseLiteralException;
-import graphql.schema.CoercingParseValueException;
-import graphql.schema.CoercingSerializeException;
-import graphql.schema.GraphQLScalarType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.graphqlio.gtt.types.GttDateType;
+import com.graphqlio.gtt.types.GttJsonType;
+import com.graphqlio.gtt.types.GttUuidType;
+import com.graphqlio.gtt.types.GttVoidType;
 
 /**
- * Class used to implement void (no value) for graphql scalar types
+ * Class used propagate types in a graphql io server environment
  *
  * @author Michael Schäfer
+ * @author Dr. Edgar Müller
  * @author Torsten Kühnert
  */
 
-public class GttVoidType extends GraphQLScalarType {
+@Configuration
+@EnableConfigurationProperties(GttAutoConfiguration.class)
+@ConfigurationProperties(prefix = "graphqlio.toolstypes")
+public class GttAutoConfiguration{
 
-	private static final String DEFAULT_NAME = "Void";
+	@Autowired
+	private GttProperties gttProperties;
+    	
+	@Bean 
+	public GttUuidType gttUuidType() { return new GttUuidType(); }
+	
+	@Bean 
+	public GttDateType gttDateType() { return new GttDateType(); }
 
-	public GttVoidType() {
-		this(DEFAULT_NAME);
-	}
+	@Bean 
+	public GttJsonType gttJsonType() { return new GttJsonType(); }
 
-	public GttVoidType(final String name) {
-		super(name, DEFAULT_NAME + " type", new Coercing<Object, Object>() {
-
-			@Override
-			public Object parseLiteral(Object arg0) throws CoercingParseLiteralException {
-				return null;
-			}
-
-			@Override
-			public Object parseValue(Object arg0) throws CoercingParseValueException {
-				return null;
-			}
-
-			@Override
-			public Object serialize(Object arg0) throws CoercingSerializeException {
-				return null;
-			}
-
-		});
-	}
-
+	@Bean 
+	public GttVoidType gttVoidType() { return new GttVoidType(); }
+	
 }

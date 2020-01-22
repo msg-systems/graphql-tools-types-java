@@ -24,10 +24,10 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.gtt.types;
+package com.graphqlio.gtt.types;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
@@ -37,32 +37,32 @@ import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 
 /**
- * Class used to implement Date for graphql scalar types
- * format yyyy-MM-dd HH:mm:ss is used here
+ * Class used to implement JSON for graphql scalar types
+ * represented by Strings
+ * correct JSON-format is checked
  *
  * @author Michael Schäfer
  * @author Torsten Kühnert
+ * @author Wei Scheng
  */
 
-public class GttDateType extends GraphQLScalarType {
+public class GttJsonType extends GraphQLScalarType {
 
-	private static final String DEFAULT_NAME = "Date";
+	private static final String DEFAULT_NAME = "JSON";
 
-	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-	public GttDateType() {
+	public GttJsonType() {
 		this(DEFAULT_NAME);
 	}
 
-	public GttDateType(final String name) {
-		super(name, DEFAULT_NAME + " type", new Coercing<Date, String>() {
+	public GttJsonType(final String name) {
+		super(name, DEFAULT_NAME + " type", new Coercing<String, String>() {
 
 			@Override
-			public Date parseLiteral(Object arg0) throws CoercingParseLiteralException {
+			public String parseLiteral(Object arg0) throws CoercingParseLiteralException {
 				if (arg0 instanceof StringValue) {
 					try {
-						StringValue inst = (StringValue) arg0;
-						return new SimpleDateFormat(DATE_FORMAT).parse(inst.getValue());
+						String value = ((StringValue) arg0).getValue();
+						return testAndConvertJson2String(value);
 					} catch (Exception e) {
 						throw new CoercingParseLiteralException(e);
 					}
@@ -73,10 +73,11 @@ public class GttDateType extends GraphQLScalarType {
 			}
 
 			@Override
-			public Date parseValue(Object arg0) throws CoercingParseValueException {
+			public String parseValue(Object arg0) throws CoercingParseValueException {
 				if (arg0 instanceof String) {
 					try {
-						return new SimpleDateFormat(DATE_FORMAT).parse((String) arg0);
+						String value = (String) arg0;
+						return testAndConvertJson2String(value);
 					} catch (Exception e) {
 						throw new CoercingParseValueException(e);
 					}
@@ -88,15 +89,37 @@ public class GttDateType extends GraphQLScalarType {
 
 			@Override
 			public String serialize(Object arg0) throws CoercingSerializeException {
-				if (arg0 instanceof Date) {
+				if (arg0 instanceof String) {
 					try {
-						return new SimpleDateFormat(DATE_FORMAT).format((Date) arg0);
+						String value = (String) arg0;
+						return testAndConvertJson2String(value);
 					} catch (Exception e) {
 						throw new CoercingSerializeException(e);
 					}
 				} else {
 					throw new CoercingSerializeException(
-							"serialize: Expected a 'Date' but was '" + (arg0.getClass()) + "'.");
+							"serialize: Expected a 'String' but was '" + (arg0.getClass()) + "'.");
+				}
+			}
+
+			private String testAndConvertJson2String(String value) throws Exception {
+				try {
+					// 1. try JSONObject
+					JSONObject obj = new JSONObject(value);
+					return obj.toString();
+
+				} catch (Exception e1) {
+					String eMsg = e1.getMessage();
+
+					try {
+						// 2. try JSONArray
+						JSONArray obj = new JSONArray(value);
+						return obj.toString();
+
+					} catch (Exception e2) {
+						eMsg += " and " + e2.getMessage();
+						throw new Exception(eMsg);
+					}
 				}
 			}
 

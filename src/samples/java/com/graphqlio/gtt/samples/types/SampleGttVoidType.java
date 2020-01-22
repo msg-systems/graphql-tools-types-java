@@ -1,17 +1,17 @@
-package com.thinkenterprise.gtt.samples.types;
+package com.graphqlio.gtt.samples.types;
 
-import com.thinkenterprise.gtt.types.GttUuidType;
+import com.graphqlio.gtt.types.GttVoidType;
 
 import graphql.language.StringValue;
 
-public class SampleGttUuidType {
+public class SampleGttVoidType {
 
 	public static void main(String[] args) {
-		new SampleGttUuidType().run();
+		new SampleGttVoidType().run();
 	}
 
 	public void run() {
-		GttUuidType type = new GttUuidType();
+		GttVoidType type = new GttVoidType();
 
 		/*
 		 * some scalar type information
@@ -22,23 +22,26 @@ public class SampleGttUuidType {
 
 		/*
 		 * literal parsing
+		 * 
+		 * always null, so no class information available
 		 */
-		Object result = type.getCoercing().parseLiteral(new StringValue("3b241101-e2bb-4255-8caf-4136c566a964"));
-		System.out.println("result.class = " + result.getClass().getName());
+		Object result = type.getCoercing().parseLiteral(new StringValue("2005-05-05 05:05:05"));
 		System.out.println("result = " + result);
 
 		/*
 		 * value parsing
+		 * 
+		 * always null, so no class information available
 		 */
-		result = type.getCoercing().parseValue("3b241101-e2bb-4255-8caf-4136c566a964");
-		System.out.println("result.class = " + result.getClass().getName());
+		result = type.getCoercing().parseValue("hi there");
 		System.out.println("result = " + result);
 
 		/*
 		 * serialization
+		 * 
+		 * always null, so no class information available
 		 */
 		result = type.getCoercing().serialize(result);
-		System.out.println("result.class = " + result.getClass().getName());
 		System.out.println("result = " + result);
 	}
 

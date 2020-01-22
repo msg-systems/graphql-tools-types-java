@@ -1,17 +1,17 @@
-package com.thinkenterprise.gtt.samples.types;
+package com.graphqlio.gtt.samples.types;
 
-import com.thinkenterprise.gtt.types.GttDateType;
+import com.graphqlio.gtt.types.GttUuidType;
 
 import graphql.language.StringValue;
 
-public class SampleGttDateType {
+public class SampleGttUuidType {
 
 	public static void main(String[] args) {
-		new SampleGttDateType().run();
+		new SampleGttUuidType().run();
 	}
 
 	public void run() {
-		GttDateType type = new GttDateType();
+		GttUuidType type = new GttUuidType();
 
 		/*
 		 * some scalar type information
@@ -23,14 +23,14 @@ public class SampleGttDateType {
 		/*
 		 * literal parsing
 		 */
-		Object result = type.getCoercing().parseLiteral(new StringValue("2005-05-05 05:05:05"));
+		Object result = type.getCoercing().parseLiteral(new StringValue("3b241101-e2bb-4255-8caf-4136c566a964"));
 		System.out.println("result.class = " + result.getClass().getName());
 		System.out.println("result = " + result);
 
 		/*
 		 * value parsing
 		 */
-		result = type.getCoercing().parseValue("2005-05-05 05:05:05");
+		result = type.getCoercing().parseValue("3b241101-e2bb-4255-8caf-4136c566a964");
 		System.out.println("result.class = " + result.getClass().getName());
 		System.out.println("result = " + result);
 

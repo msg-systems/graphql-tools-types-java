@@ -24,20 +24,30 @@
  * **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * *
  ******************************************************************************/
-package com.thinkenterprise.gtt.autoconfiguration;
+package com.graphqlio.gtt;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.stereotype.Component;
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * Class to provide graphqlio.server Configuration properties 
+ * Class for library module configuration
  *
  * @author Michael Schäfer
+ * @author Dr. Edgar Müller
  */
 
-@Component
-@ConfigurationProperties(prefix = "graphqlio.toolstypes")
-public class GttProperties {
+@Configuration
+@ComponentScan(basePackageClasses = GraphQLIOLibraryGttConfiguration.class)
+public class GraphQLIOLibraryGttConfiguration {
 
+	private static final Logger logger = LoggerFactory.getLogger(GraphQLIOLibraryGttConfiguration.class);
+
+	@PostConstruct
+	public void postConstruct() {
+		logger.info("GraphQLIOLIbrary GTT Module Loaded!");
+	}
 }

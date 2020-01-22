@@ -23,11 +23,13 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package com.thinkenterprise.gtt.types;
+package com.graphqlio.gtt.types;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
@@ -36,7 +38,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.thinkenterprise.gtt.types.GttUuidType;
+import com.graphqlio.gtt.types.GttDateType;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
@@ -45,7 +47,7 @@ import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 
 /**
- * Class for testing library graphql scalar type UUID
+ * Class for testing library graphql scalar type Date
  *
  * @author Michael Schäfer
  * @author Torsten Kühnert
@@ -55,12 +57,13 @@ import graphql.schema.CoercingSerializeException;
 @Tag("junit5")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestGttUuidType {
+public class TestGttDateType {
 
-	private static final GttUuidType gttUuidType = new GttUuidType();
-	private static final Coercing coercing = gttUuidType.getCoercing();
+	private static final GttDateType gttDateType = new GttDateType();
+	private static final Coercing coercing = gttDateType.getCoercing();
 
-	private static final String UUID_STRING = "3b241101-e2bb-4255-8caf-4136c566a964";
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	private static final SimpleDateFormat SDF = new SimpleDateFormat(DATE_FORMAT);
 
 	/*
 	 * testing parseLiteral
@@ -70,32 +73,31 @@ public class TestGttUuidType {
 	@Test
 	public void test01() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
-			Object result = coercing.parseLiteral("hallo test");
+			Object result = coercing.parseLiteral("2005-05-05 05:05:05");
 		});
 	}
 
 	/*
 	 * testing parseLiteral
 	 * 
-	 * StringValue is correct input type, but wrong input value format: no uuid
-	 * value format
+	 * StringValue is correct input type, but wrong input value format: no time
 	 */
 	@Test
 	public void test02() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
-			Object result = coercing.parseLiteral(new StringValue("123"));
+			Object result = coercing.parseLiteral(new StringValue("2005-05-05"));
 		});
 	}
 
 	/*
 	 * testing parseLiteral
 	 * 
-	 * wrong input value format: no uuid value format
+	 * wrong input value format: no seconds
 	 */
 	@Test
 	public void test03() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
-			Object result = coercing.parseLiteral(new StringValue("abc-123-xyz-789"));
+			Object result = coercing.parseLiteral(new StringValue("2005-05-05 05:05"));
 		});
 	}
 
@@ -105,9 +107,9 @@ public class TestGttUuidType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test04() {
-		Object result = coercing.parseLiteral(new StringValue(UUID_STRING));
-		assertEquals(UUID.fromString(UUID_STRING), result);
+	public void test04() throws ParseException {
+		Object result = coercing.parseLiteral(new StringValue("2005-05-05 05:05:05"));
+		assertEquals(SDF.parse("2005-05-05 05:05:05"), result);
 	}
 
 	/*
@@ -118,32 +120,31 @@ public class TestGttUuidType {
 	@Test
 	public void test11() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
-			Object result = coercing.parseValue(new StringValue(UUID_STRING));
+			Object result = coercing.parseValue(new StringValue("2005-05-05 05:05:05"));
 		});
 	}
 
 	/*
 	 * testing parseValue
 	 * 
-	 * StringValue is correct input type, but wrong input value format: no uuid
-	 * value format
+	 * StringValue is correct input type, but wrong input value format: no time
 	 */
 	@Test
 	public void test12() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
-			Object result = coercing.parseValue("abc");
+			Object result = coercing.parseValue("2005-05-05");
 		});
 	}
 
 	/*
 	 * testing parseValue
 	 * 
-	 * wrong input value format: no uuid value format
+	 * wrong input value format: no seconds
 	 */
 	@Test
 	public void test13() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
-			Object result = coercing.parseValue("abc-123-3456-xyzz");
+			Object result = coercing.parseValue("2005-05-05 05:05");
 		});
 	}
 
@@ -153,21 +154,9 @@ public class TestGttUuidType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test14() {
-		Object result = coercing.parseValue(UUID_STRING);
-		assertEquals(UUID.fromString(UUID_STRING), result);
-	}
-
-	/*
-	 * testing serialize
-	 * 
-	 * StringValue is wrong input type
-	 */
-	@Test
-	public void test21() {
-		Assertions.assertThrows(CoercingParseValueException.class, () -> {
-			Object result = coercing.parseValue("abc-123-3456-xyzz");
-		});
+	public void test14() throws ParseException {
+		Object result = coercing.parseValue("2005-05-05 05:05:05");
+		assertEquals(SDF.parse("2005-05-05 05:05:05"), result);
 	}
 
 	/*
@@ -176,21 +165,44 @@ public class TestGttUuidType {
 	 * String is wrong input type
 	 */
 	@Test
-	public void test22() {
+	public void test21() {
 		Assertions.assertThrows(CoercingSerializeException.class, () -> {
-			Object result = coercing.serialize(UUID_STRING);
+			Object result = coercing.serialize("2005-05-05 05:05:05");
 		});
 	}
 
 	/*
 	 * testing serialize
 	 * 
-	 * correct input, correct value format
+	 * Date is correct input type
+	 */
+	@Test
+	public void test22() throws CoercingSerializeException, ParseException {
+		Object result = coercing.serialize(new SimpleDateFormat("yyyy-MM-dd").parse("2005-05-05"));
+		assertEquals("2005-05-05 00:00:00", result);
+	}
+
+	/*
+	 * testing serialize
+	 * 
+	 * correct input, compare date formatted to string
 	 */
 	@Test
 	public void test23() {
-		Object result = coercing.serialize(UUID.fromString(UUID_STRING));
-		assertEquals(UUID_STRING, result);
+		Date input = new Date();
+		Object result = coercing.serialize(input);
+		assertEquals(SDF.format(input), result);
+	}
+
+	/*
+	 * testing serialize
+	 * 
+	 * correct input, compare date formatted to string
+	 */
+	@Test
+	public void test24() throws ParseException {
+		Object result = coercing.serialize(SDF.parse("2005-05-05 05:05:05"));
+		assertEquals("2005-05-05 05:05:05", result);
 	}
 
 }

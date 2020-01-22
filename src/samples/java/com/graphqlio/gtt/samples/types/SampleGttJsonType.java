@@ -1,6 +1,6 @@
-package com.thinkenterprise.gtt.samples.types;
+package com.graphqlio.gtt.samples.types;
 
-import com.thinkenterprise.gtt.types.GttJsonType;
+import com.graphqlio.gtt.types.GttJsonType;
 
 import graphql.language.StringValue;
 
@@ -44,20 +44,22 @@ public class SampleGttJsonType {
 		/*
 		 * 3x exception when String has no JSON format
 		 */
+		System.out.println("3 expected Exceptions:");
+
 		try {
 			result = type.getCoercing().parseLiteral(new StringValue("{a:1 dd,b: & [2,3, X ]}"));
 		} catch (Exception e) {
-			System.out.println("e = " + e.getMessage());
+			System.out.println("expected Exception = " + e.getMessage());
 		}
 		try {
 			result = type.getCoercing().parseValue("{a:1 dd,b: & [2,3, X ]}");
 		} catch (Exception e) {
-			System.out.println("e = " + e.getMessage());
+			System.out.println("expected Exception = " + e.getMessage());
 		}
 		try {
 			result = type.getCoercing().serialize("{a:1 dd,b: & [2,3, X ]}");
 		} catch (Exception e) {
-			System.out.println("e = " + e.getMessage());
+			System.out.println("expected Exception = " + e.getMessage());
 		}
 	}
 
