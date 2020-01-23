@@ -30,13 +30,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.graphqlio.gtt.types.GttUuidType;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
@@ -51,10 +45,6 @@ import graphql.schema.CoercingSerializeException;
  * @author Torsten Kühnert
  */
 
-@Tag("annotations")
-@Tag("junit5")
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestGttUuidType {
 
 	private static final GttUuidType gttUuidType = new GttUuidType();
@@ -68,7 +58,7 @@ public class TestGttUuidType {
 	 * String is wrong input type
 	 */
 	@Test
-	public void test01() {
+	public void testParseLiteral1() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral("hallo test");
 		});
@@ -81,7 +71,7 @@ public class TestGttUuidType {
 	 * value format
 	 */
 	@Test
-	public void test02() {
+	public void testParseLiteral2() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("123"));
 		});
@@ -93,7 +83,7 @@ public class TestGttUuidType {
 	 * wrong input value format: no uuid value format
 	 */
 	@Test
-	public void test03() {
+	public void testParseLiteral3() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("abc-123-xyz-789"));
 		});
@@ -105,7 +95,7 @@ public class TestGttUuidType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test04() {
+	public void testParseLiteral4() {
 		Object result = coercing.parseLiteral(new StringValue(UUID_STRING));
 		assertEquals(UUID.fromString(UUID_STRING), result);
 	}
@@ -116,7 +106,7 @@ public class TestGttUuidType {
 	 * StringValue is wrong input type
 	 */
 	@Test
-	public void test11() {
+	public void testParseValue1() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue(new StringValue(UUID_STRING));
 		});
@@ -129,7 +119,7 @@ public class TestGttUuidType {
 	 * value format
 	 */
 	@Test
-	public void test12() {
+	public void testParseValue2() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("abc");
 		});
@@ -141,7 +131,7 @@ public class TestGttUuidType {
 	 * wrong input value format: no uuid value format
 	 */
 	@Test
-	public void test13() {
+	public void testParseValue3() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("abc-123-3456-xyzz");
 		});
@@ -153,7 +143,7 @@ public class TestGttUuidType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test14() {
+	public void testParseValue4() {
 		Object result = coercing.parseValue(UUID_STRING);
 		assertEquals(UUID.fromString(UUID_STRING), result);
 	}
@@ -164,7 +154,7 @@ public class TestGttUuidType {
 	 * StringValue is wrong input type
 	 */
 	@Test
-	public void test21() {
+	public void testParseValue5() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("abc-123-3456-xyzz");
 		});
@@ -176,7 +166,7 @@ public class TestGttUuidType {
 	 * String is wrong input type
 	 */
 	@Test
-	public void test22() {
+	public void testSerialize1() {
 		Assertions.assertThrows(CoercingSerializeException.class, () -> {
 			Object result = coercing.serialize(UUID_STRING);
 		});
@@ -188,7 +178,7 @@ public class TestGttUuidType {
 	 * correct input, correct value format
 	 */
 	@Test
-	public void test23() {
+	public void testSerialize2() {
 		Object result = coercing.serialize(UUID.fromString(UUID_STRING));
 		assertEquals(UUID_STRING, result);
 	}

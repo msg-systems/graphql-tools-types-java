@@ -30,13 +30,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Date;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.graphqlio.gtt.types.GttJsonType;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
@@ -51,10 +45,6 @@ import graphql.schema.CoercingSerializeException;
  * @author Torsten Kühnert
  */
 
-@Tag("annotations")
-@Tag("junit5")
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestGttJsonType {
 
 	private static final GttJsonType gttJsonType = new GttJsonType();
@@ -66,7 +56,7 @@ public class TestGttJsonType {
 	 * String is wrong input type
 	 */
 	@Test
-	public void test01() {
+	public void testParseLiteral1() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral("2005-05-05 05:05:05");
 		});
@@ -78,7 +68,7 @@ public class TestGttJsonType {
 	 * StringValue is correct input type, but wrong input value format: no json
 	 */
 	@Test
-	public void test02() {
+	public void testParseLiteral2() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("2005-05-05"));
 		});
@@ -90,7 +80,7 @@ public class TestGttJsonType {
 	 * wrong input value format: no correct json
 	 */
 	@Test
-	public void test03() {
+	public void testParseLiteral3() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("{ a 3 x }"));
 		});
@@ -102,7 +92,7 @@ public class TestGttJsonType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test04() {
+	public void testParseLiteral4() {
 		Object result = coercing.parseLiteral(new StringValue("{ a: 34, x: [ 3, 4 ] }"));
 		assertEquals("{\"a\":34,\"x\":[3,4]}", result);
 	}
@@ -113,7 +103,7 @@ public class TestGttJsonType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test05() {
+	public void testParseLiteral5() {
 		Object result = coercing.parseLiteral(new StringValue("[]"));
 		assertEquals("[]", result);
 	}
@@ -124,7 +114,7 @@ public class TestGttJsonType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test06() {
+	public void testParseLiteral6() {
 		Object result = coercing.parseLiteral(new StringValue("[ 2, {}, 4 ]"));
 		assertEquals("[2,{},4]", result);
 	}
@@ -135,7 +125,7 @@ public class TestGttJsonType {
 	 * StringValue is wrong input type
 	 */
 	@Test
-	public void test11() {
+	public void testParseValue1() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue(new StringValue("abcabcabcabc"));
 		});
@@ -147,7 +137,7 @@ public class TestGttJsonType {
 	 * correct input type, wrong input value format: no json
 	 */
 	@Test
-	public void test12() {
+	public void testParseValue2() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("123123123");
 		});
@@ -159,7 +149,7 @@ public class TestGttJsonType {
 	 * wrong input value format: no json
 	 */
 	@Test
-	public void test13() {
+	public void testParseValue3() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("{ 1 2 3 }");
 		});
@@ -171,7 +161,7 @@ public class TestGttJsonType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test14() {
+	public void testParseValue4() {
 		Object result = coercing.parseValue("{ a: 123, b: [ 1, 2, 3 ] }");
 		assertEquals("{\"a\":123,\"b\":[1,2,3]}", result);
 	}
@@ -182,7 +172,7 @@ public class TestGttJsonType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test15() {
+	public void testParseValue5() {
 		Object result = coercing.parseValue("[ 2, 3, 4 ]");
 		assertEquals("[2,3,4]", result);
 	}
@@ -193,7 +183,7 @@ public class TestGttJsonType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test16() {
+	public void testParseValue6() {
 		Object result = coercing.parseValue("[ 2, {aa: { x: \"a\" }}, 4 ]");
 		assertEquals("[2,{\"aa\":{\"x\":\"a\"}},4]", result);
 	}
@@ -204,7 +194,7 @@ public class TestGttJsonType {
 	 * int is wrong input type
 	 */
 	@Test
-	public void test21() {
+	public void testSerialize1() {
 		Assertions.assertThrows(CoercingSerializeException.class, () -> {
 			Object result = coercing.serialize(123456789);
 		});
@@ -216,7 +206,7 @@ public class TestGttJsonType {
 	 * correct input type, input value: no json format
 	 */
 	@Test
-	public void test22() {
+	public void testSerialize2() {
 		Assertions.assertThrows(CoercingSerializeException.class, () -> {
 			Object result = coercing.serialize("2005-05-05 05:05:05");
 		});
@@ -228,7 +218,7 @@ public class TestGttJsonType {
 	 * correct input, correct value
 	 */
 	@Test
-	public void test23() {
+	public void testSerialize3() {
 		Object result = coercing.serialize("{ abc: 123 }");
 		assertEquals("{\"abc\":123}", result);
 	}
@@ -239,7 +229,7 @@ public class TestGttJsonType {
 	 * correct input, correct value
 	 */
 	@Test
-	public void test24() {
+	public void testSerialize4() {
 		Date input = new Date();
 		Object result = coercing.serialize("[ { abc: 123 }, { def: 456 }, { xyz: 789 } ]");
 		assertEquals("[{\"abc\":123},{\"def\":456},{\"xyz\":789}]", result);
@@ -251,7 +241,7 @@ public class TestGttJsonType {
 	 * correct input, correct value
 	 */
 	@Test
-	public void test25() {
+	public void testSerialize5() {
 		Object result = coercing.serialize("{ abc: {} }");
 		assertEquals("{\"abc\":{}}", result);
 	}

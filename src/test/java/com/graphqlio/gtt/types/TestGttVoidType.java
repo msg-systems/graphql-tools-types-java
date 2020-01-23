@@ -27,20 +27,12 @@ package com.graphqlio.gtt.types;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.ParseException;
 import java.util.Date;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.graphqlio.gtt.types.GttVoidType;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
-import graphql.schema.CoercingSerializeException;
 
 /**
  * Class for testing library graphql scalar type Void
@@ -49,10 +41,6 @@ import graphql.schema.CoercingSerializeException;
  * @author Torsten Kühnert
  */
 
-@Tag("annotations")
-@Tag("junit5")
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestGttVoidType {
 
 	private static final GttVoidType gttVoidType = new GttVoidType();
@@ -64,52 +52,20 @@ public class TestGttVoidType {
 	 * every input is ok, result is always null
 	 */
 	@Test
-	public void test01() {
+	public void testParseLiteral() {
 		Object result = coercing.parseLiteral("2005-05-05 05:05:05");
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing parseLiteral
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test02() {
-		Object result = coercing.parseLiteral(new StringValue("2005-05-05"));
+		result = coercing.parseLiteral(new StringValue("2005-05-05"));
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing parseLiteral
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test03() {
-		Object result = coercing.parseLiteral(1235);
+		result = coercing.parseLiteral(1235);
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing parseLiteral
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test04() throws ParseException {
-		Object result = coercing.parseLiteral(new Date());
+		result = coercing.parseLiteral(new Date());
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing parseLiteral
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test05() throws ParseException {
-		Object result = coercing.parseLiteral(null);
+		result = coercing.parseLiteral(null);
 		assertEquals(null, result);
 	}
 
@@ -119,41 +75,17 @@ public class TestGttVoidType {
 	 * every input is ok, result is always null
 	 */
 	@Test
-	public void test11() {
+	public void testParseValue() {
 		Object result = coercing.parseValue(new StringValue("2005-05-05 05:05:05"));
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing parseValue
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test12() {
-		Object result = coercing.parseValue("2005-05-05");
+		result = coercing.parseValue("2005-05-05");
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing parseValue
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test13() {
-		Object result = coercing.parseValue(1354);
+		result = coercing.parseValue(1354);
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing parseValue
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test14() throws ParseException {
-		Object result = coercing.parseValue(new Date());
+		result = coercing.parseValue(new Date());
 		assertEquals(null, result);
 	}
 
@@ -163,41 +95,17 @@ public class TestGttVoidType {
 	 * every input is ok, result is always null
 	 */
 	@Test
-	public void test21() {
+	public void testSerialize() {
 		Object result = coercing.serialize("2005-05-05 05:05:05");
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing serialize
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test22() throws CoercingSerializeException, ParseException {
-		Object result = coercing.serialize(new Date());
+		result = coercing.serialize(new Date());
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing serialize
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test23() {
-		Object result = coercing.serialize(1354);
+		result = coercing.serialize(1354);
 		assertEquals(null, result);
-	}
 
-	/*
-	 * testing serialize
-	 * 
-	 * every input is ok, result is always null
-	 */
-	@Test
-	public void test24() throws ParseException {
-		Object result = coercing.serialize(true);
+		result = coercing.serialize(true);
 		assertEquals(null, result);
 	}
 

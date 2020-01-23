@@ -32,13 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.graphqlio.gtt.types.GttDateType;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;
@@ -53,10 +47,6 @@ import graphql.schema.CoercingSerializeException;
  * @author Torsten Kühnert
  */
 
-@Tag("annotations")
-@Tag("junit5")
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestGttDateType {
 
 	private static final GttDateType gttDateType = new GttDateType();
@@ -71,7 +61,7 @@ public class TestGttDateType {
 	 * String is wrong input type
 	 */
 	@Test
-	public void test01() {
+	public void testParseLiteralCase1() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral("2005-05-05 05:05:05");
 		});
@@ -83,7 +73,7 @@ public class TestGttDateType {
 	 * StringValue is correct input type, but wrong input value format: no time
 	 */
 	@Test
-	public void test02() {
+	public void testParseLiteralCase2() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("2005-05-05"));
 		});
@@ -95,7 +85,7 @@ public class TestGttDateType {
 	 * wrong input value format: no seconds
 	 */
 	@Test
-	public void test03() {
+	public void testParseLiteralCase3() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("2005-05-05 05:05"));
 		});
@@ -107,7 +97,7 @@ public class TestGttDateType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test04() throws ParseException {
+	public void testParseLiteralCase4() throws ParseException {
 		Object result = coercing.parseLiteral(new StringValue("2005-05-05 05:05:05"));
 		assertEquals(SDF.parse("2005-05-05 05:05:05"), result);
 	}
@@ -118,7 +108,7 @@ public class TestGttDateType {
 	 * StringValue is wrong input type
 	 */
 	@Test
-	public void test11() {
+	public void testParseValue1() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue(new StringValue("2005-05-05 05:05:05"));
 		});
@@ -130,7 +120,7 @@ public class TestGttDateType {
 	 * StringValue is correct input type, but wrong input value format: no time
 	 */
 	@Test
-	public void test12() {
+	public void testParseValue2() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("2005-05-05");
 		});
@@ -142,7 +132,7 @@ public class TestGttDateType {
 	 * wrong input value format: no seconds
 	 */
 	@Test
-	public void test13() {
+	public void testParseValue3() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("2005-05-05 05:05");
 		});
@@ -154,7 +144,7 @@ public class TestGttDateType {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void test14() throws ParseException {
+	public void testParseValue4() throws ParseException {
 		Object result = coercing.parseValue("2005-05-05 05:05:05");
 		assertEquals(SDF.parse("2005-05-05 05:05:05"), result);
 	}
@@ -165,7 +155,7 @@ public class TestGttDateType {
 	 * String is wrong input type
 	 */
 	@Test
-	public void test21() {
+	public void testSerialize1() {
 		Assertions.assertThrows(CoercingSerializeException.class, () -> {
 			Object result = coercing.serialize("2005-05-05 05:05:05");
 		});
@@ -177,7 +167,7 @@ public class TestGttDateType {
 	 * Date is correct input type
 	 */
 	@Test
-	public void test22() throws CoercingSerializeException, ParseException {
+	public void testSerialize2() throws ParseException {
 		Object result = coercing.serialize(new SimpleDateFormat("yyyy-MM-dd").parse("2005-05-05"));
 		assertEquals("2005-05-05 00:00:00", result);
 	}
@@ -188,7 +178,7 @@ public class TestGttDateType {
 	 * correct input, compare date formatted to string
 	 */
 	@Test
-	public void test23() {
+	public void testSerialize3() {
 		Date input = new Date();
 		Object result = coercing.serialize(input);
 		assertEquals(SDF.format(input), result);
@@ -200,7 +190,7 @@ public class TestGttDateType {
 	 * correct input, compare date formatted to string
 	 */
 	@Test
-	public void test24() throws ParseException {
+	public void testSerialize4() throws ParseException {
 		Object result = coercing.serialize(SDF.parse("2005-05-05 05:05:05"));
 		assertEquals("2005-05-05 05:05:05", result);
 	}
