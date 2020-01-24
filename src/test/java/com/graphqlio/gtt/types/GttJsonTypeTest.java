@@ -45,7 +45,7 @@ import graphql.schema.CoercingSerializeException;
  * @author Torsten Kühnert
  */
 
-public class TestGttJsonType {
+public class GttJsonTypeTest {
 
 	private static final GttJsonType gttJsonType = new GttJsonType();
 	private static final Coercing coercing = gttJsonType.getCoercing();

@@ -41,7 +41,7 @@ import graphql.schema.Coercing;
  * @author Torsten Kühnert
  */
 
-public class TestGttVoidType {
+public class GttVoidTypeTest {
 
 	private static final GttVoidType gttVoidType = new GttVoidType();
 	private static final Coercing coercing = gttVoidType.getCoercing();
