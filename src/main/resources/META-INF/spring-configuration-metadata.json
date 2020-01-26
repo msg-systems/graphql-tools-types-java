@@ -1,16 +1,5 @@
 {
-  "groups": [
-    {
-      "name": "graphqlio.toolstypes",
-      "type": "com.thinkenterprise.gtt.autoconfiguration.GttAutoConfiguration",
-      "sourceType": "com.thinkenterprise.gtt.autoconfiguration.GttAutoConfiguration"
-    },
-    {
-      "name": "graphqlio.toolstypes",
-      "type": "com.thinkenterprise.gtt.autoconfiguration.GttProperties",
-      "sourceType": "com.thinkenterprise.gtt.autoconfiguration.GttProperties"
-    }
-  ],
+  "groups": [],
   "properties": [],
   "hints": []
 }
