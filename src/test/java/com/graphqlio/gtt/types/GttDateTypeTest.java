@@ -61,7 +61,7 @@ public class GttDateTypeTest {
 	 * String is wrong input type
 	 */
 	@Test
-	public void testParseLiteralCase1() {
+	public void whenParseLiteralGetsWrongInputTypeThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral("2005-05-05 05:05:05");
 		});
@@ -73,7 +73,7 @@ public class GttDateTypeTest {
 	 * StringValue is correct input type, but wrong input value format: no time
 	 */
 	@Test
-	public void testParseLiteralCase2() {
+	public void whenParseLiteralGetsWrongInputFormatThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("2005-05-05"));
 		});
@@ -85,7 +85,7 @@ public class GttDateTypeTest {
 	 * wrong input value format: no seconds
 	 */
 	@Test
-	public void testParseLiteralCase3() {
+	public void whenParseLiteralGetsWrongInputFormatThenEceptionIsThrown2() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("2005-05-05 05:05"));
 		});
@@ -97,7 +97,7 @@ public class GttDateTypeTest {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void testParseLiteralCase4() throws ParseException {
+	public void whenParseLiteralGetsCorrectInputThenOutputIsCorrect() throws ParseException {
 		Object result = coercing.parseLiteral(new StringValue("2005-05-05 05:05:05"));
 		assertEquals(SDF.parse("2005-05-05 05:05:05"), result);
 	}
@@ -108,7 +108,7 @@ public class GttDateTypeTest {
 	 * StringValue is wrong input type
 	 */
 	@Test
-	public void testParseValue1() {
+	public void whenParseValueGetsWrongInputTypeThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue(new StringValue("2005-05-05 05:05:05"));
 		});
@@ -120,7 +120,7 @@ public class GttDateTypeTest {
 	 * StringValue is correct input type, but wrong input value format: no time
 	 */
 	@Test
-	public void testParseValue2() {
+	public void whenParseValueGetsWrongInputFormatThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("2005-05-05");
 		});
@@ -132,7 +132,7 @@ public class GttDateTypeTest {
 	 * wrong input value format: no seconds
 	 */
 	@Test
-	public void testParseValue3() {
+	public void whenParseValueGetsWrongInputFormatThenEceptionIsThrown2() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("2005-05-05 05:05");
 		});
@@ -144,7 +144,7 @@ public class GttDateTypeTest {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void testParseValue4() throws ParseException {
+	public void whenParseValueGetsCorrectInputThenOutputIsCorrect() throws ParseException {
 		Object result = coercing.parseValue("2005-05-05 05:05:05");
 		assertEquals(SDF.parse("2005-05-05 05:05:05"), result);
 	}
@@ -155,7 +155,7 @@ public class GttDateTypeTest {
 	 * String is wrong input type
 	 */
 	@Test
-	public void testSerialize1() {
+	public void whenSerializeGetsWrongInputTypeThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingSerializeException.class, () -> {
 			Object result = coercing.serialize("2005-05-05 05:05:05");
 		});
@@ -167,7 +167,7 @@ public class GttDateTypeTest {
 	 * Date is correct input type
 	 */
 	@Test
-	public void testSerialize2() throws ParseException {
+	public void whenSerializeGetsCorrectInputThenOutputIsCorrect() throws ParseException {
 		Object result = coercing.serialize(new SimpleDateFormat("yyyy-MM-dd").parse("2005-05-05"));
 		assertEquals("2005-05-05 00:00:00", result);
 	}
@@ -178,7 +178,7 @@ public class GttDateTypeTest {
 	 * correct input, compare date formatted to string
 	 */
 	@Test
-	public void testSerialize3() {
+	public void whenSerializeGetsCorrectInputThenOutputIsCorrect2() {
 		Date input = new Date();
 		Object result = coercing.serialize(input);
 		assertEquals(SDF.format(input), result);
@@ -190,7 +190,7 @@ public class GttDateTypeTest {
 	 * correct input, compare date formatted to string
 	 */
 	@Test
-	public void testSerialize4() throws ParseException {
+	public void whenSerializeGetsCorrectInputThenOutputIsCorrect3() throws ParseException {
 		Object result = coercing.serialize(SDF.parse("2005-05-05 05:05:05"));
 		assertEquals("2005-05-05 05:05:05", result);
 	}

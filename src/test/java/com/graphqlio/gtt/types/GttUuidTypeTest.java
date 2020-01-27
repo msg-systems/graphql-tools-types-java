@@ -58,7 +58,7 @@ public class GttUuidTypeTest {
 	 * String is wrong input type
 	 */
 	@Test
-	public void testParseLiteral1() {
+	public void whenParseLiteralGetsWrongInputTypeThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral("hallo test");
 		});
@@ -71,7 +71,7 @@ public class GttUuidTypeTest {
 	 * value format
 	 */
 	@Test
-	public void testParseLiteral2() {
+	public void whenParseLiteralGetsWrongInputFormatThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("123"));
 		});
@@ -83,7 +83,7 @@ public class GttUuidTypeTest {
 	 * wrong input value format: no uuid value format
 	 */
 	@Test
-	public void testParseLiteral3() {
+	public void whenParseLiteralGetsWrongInputFormatThenEceptionIsThrown2() {
 		Assertions.assertThrows(CoercingParseLiteralException.class, () -> {
 			Object result = coercing.parseLiteral(new StringValue("abc-123-xyz-789"));
 		});
@@ -95,7 +95,7 @@ public class GttUuidTypeTest {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void testParseLiteral4() {
+	public void whenParseLiteralGetsCorrectInputThenOutputIsCorrect() {
 		Object result = coercing.parseLiteral(new StringValue(UUID_STRING));
 		assertEquals(UUID.fromString(UUID_STRING), result);
 	}
@@ -106,7 +106,7 @@ public class GttUuidTypeTest {
 	 * StringValue is wrong input type
 	 */
 	@Test
-	public void testParseValue1() {
+	public void whenParseValueGetsWrongInputTypeThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue(new StringValue(UUID_STRING));
 		});
@@ -119,7 +119,7 @@ public class GttUuidTypeTest {
 	 * value format
 	 */
 	@Test
-	public void testParseValue2() {
+	public void whenParseValueGetsWrongInputFormatThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("abc");
 		});
@@ -131,7 +131,7 @@ public class GttUuidTypeTest {
 	 * wrong input value format: no uuid value format
 	 */
 	@Test
-	public void testParseValue3() {
+	public void whenParseValueGetsWrongInputFormatThenEceptionIsThrown2() {
 		Assertions.assertThrows(CoercingParseValueException.class, () -> {
 			Object result = coercing.parseValue("abc-123-3456-xyzz");
 		});
@@ -143,21 +143,9 @@ public class GttUuidTypeTest {
 	 * correct input type, correct input value format
 	 */
 	@Test
-	public void testParseValue4() {
+	public void whenParseValueGetsCorrectInputThenOutputIsCorrect() {
 		Object result = coercing.parseValue(UUID_STRING);
 		assertEquals(UUID.fromString(UUID_STRING), result);
-	}
-
-	/*
-	 * testing serialize
-	 * 
-	 * StringValue is wrong input type
-	 */
-	@Test
-	public void testParseValue5() {
-		Assertions.assertThrows(CoercingParseValueException.class, () -> {
-			Object result = coercing.parseValue("abc-123-3456-xyzz");
-		});
 	}
 
 	/*
@@ -166,7 +154,7 @@ public class GttUuidTypeTest {
 	 * String is wrong input type
 	 */
 	@Test
-	public void testSerialize1() {
+	public void whenSerializeGetsWrongInputTypeThenEceptionIsThrown() {
 		Assertions.assertThrows(CoercingSerializeException.class, () -> {
 			Object result = coercing.serialize(UUID_STRING);
 		});
@@ -178,7 +166,7 @@ public class GttUuidTypeTest {
 	 * correct input, correct value format
 	 */
 	@Test
-	public void testSerialize2() {
+	public void whenSerializeGetsCorrectInputThenOutputIsCorrect() {
 		Object result = coercing.serialize(UUID.fromString(UUID_STRING));
 		assertEquals(UUID_STRING, result);
 	}

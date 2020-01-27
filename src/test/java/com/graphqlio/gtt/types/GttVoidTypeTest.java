@@ -52,7 +52,7 @@ public class GttVoidTypeTest {
 	 * every input is ok, result is always null
 	 */
 	@Test
-	public void testParseLiteral() {
+	public void whenParseLiteralGetsSomeInputThenOutputIsCorrect() {
 		Object result = coercing.parseLiteral("2005-05-05 05:05:05");
 		assertEquals(null, result);
 
@@ -75,7 +75,7 @@ public class GttVoidTypeTest {
 	 * every input is ok, result is always null
 	 */
 	@Test
-	public void testParseValue() {
+	public void whenParseValueGetsSomeInputThenOutputIsCorrect() {
 		Object result = coercing.parseValue(new StringValue("2005-05-05 05:05:05"));
 		assertEquals(null, result);
 
@@ -95,7 +95,7 @@ public class GttVoidTypeTest {
 	 * every input is ok, result is always null
 	 */
 	@Test
-	public void testSerialize() {
+	public void whenSerializeGetsSomeInputThenOutputIsCorrect() {
 		Object result = coercing.serialize("2005-05-05 05:05:05");
 		assertEquals(null, result);
 
