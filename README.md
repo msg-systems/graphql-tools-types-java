@@ -1,6 +1,6 @@
 # About
 graphql-tools-types-java is the **Java** implementation of the **JavaScript** graphql-tools-types reference implementation. 
-The documentation of the reference implementation can be found at (https://github.com/rse/websocket-framed). 
+The documentation of the reference implementation can be found at (https://github.com/rse/graphql-tools-types). 
 
 # Installation
 ## Maven 
