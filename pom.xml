@@ -4,7 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<groupId>com.graphqlio</groupId>
 	<artifactId>graphql-tools-types-java</artifactId>
+	<version>0.0.9</version>
 	<packaging>jar</packaging>
 	<name>GraphQL GTT</name>
 
@@ -42,12 +44,6 @@
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
 		<junit.platform.version>1.5.2</junit.platform.version>
 	</properties>
-
-	<parent>
-		<groupId>com.graphqlio</groupId>
-		<artifactId>graphqlio</artifactId>
-		<version>0.0.9</version>
-	</parent>
 
 	<dependencyManagement>
 		<dependencies>
