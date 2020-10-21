@@ -223,9 +223,9 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:git@github.com:Thinkenterprise/graphql-tools-types-java.git</connection>
-		<developerConnection>scm:git:git@github.com:Thinkenterprise/graphql-tools-types-java.git</developerConnection>
-		<url>https://github.com/Thinkenterprise/graphql-tools-types-java</url>
+		<connection>scm:git:git@github.com:msg-systems/graphql-tools-types-java.git</connection>
+		<developerConnection>scm:git:git@github.com:msg-systems/graphql-tools-types-java.git</developerConnection>
+		<url>https://github.com/msg-systems/graphql-tools-types-java</url>
 	</scm>
 
 </project>
